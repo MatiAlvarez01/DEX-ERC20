@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-function SubmitButton() {
+function SubmitButton({submit}) {
+
     return (
-        <Button>Submit</Button>
+        <Button onClick={submit}>Submit</Button>
     )
 }
 

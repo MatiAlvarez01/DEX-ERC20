@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import styled from "styled-components";
 import WalletText from "../Texts/Wallet/WalletText";
 import WalletTokenText from "../Texts/Wallet/WalletTokenText";
 import TransferTokenText from "../Texts/Wallet/TransferTokenText";
 import SubmitButton from "./SubmitButton";
+import InputWallet from "./InputWallet";
+import DirectionWallet from "./DirectionWallet";
 
-function Wallet({tokens, tokenSelected}) {
+const DIRECTION = {
+    WITHDRAW: "WITHDRAW",
+    DEPOSIT: "DEPOSIT"
+}
+
+function Wallet({tokens, tokenSelected, getBalances, user, setUser, deposit, withdraw, contracts}) {
+    const [direction, setDirection] = useState(DIRECTION.DEPOSIT)
+    const [amount, setAmount] = useState();
+    
+    useEffect(() => {
+        getBalances(user.account, tokens[tokenSelected].ticker)
+    }, [tokenSelected])
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (direction === DIRECTION.DEPOSIT) {
+            deposit(amount);
+        } else {
+            withdraw(amount);
+        }
+    }
     return (
         <MainSection>
             <TitleDiv>
@@ -26,7 +48,7 @@ function Wallet({tokens, tokenSelected}) {
                         <p>Wallet</p>
                     </LeftDiv>
                     <RightDiv>
-                        <p>value</p>
+                        <p>{user.balances.tokenWallet}</p>
                     </RightDiv>
                 </SpaceBetweenDiv>
                 <SpaceBetweenDiv>
@@ -34,7 +56,7 @@ function Wallet({tokens, tokenSelected}) {
                         <p>Dex</p>
                     </LeftDiv>
                     <RightDiv>
-                        <p>value</p>
+                        <p>{user.balances.tokenDex}</p>
                     </RightDiv>
                 </SpaceBetweenDiv>
             </div>
@@ -49,7 +71,11 @@ function Wallet({tokens, tokenSelected}) {
                         <p>Direction</p>
                     </LeftDiv>
                     <RightDiv>
-                        <p>Deposit/Withdraw</p>
+                        <DirectionWallet 
+                            direction={direction}
+                            setDirection={setDirection}
+                            directionObj={DIRECTION}
+                        />
                     </RightDiv>
                 </SpaceBetweenDiv>
                 <SpaceBetweenDiv>
@@ -57,12 +83,17 @@ function Wallet({tokens, tokenSelected}) {
                         <p>Amount</p>
                     </LeftDiv>
                     <RightDiv>
-                        <p>Input/value</p>
+                        <InputWallet 
+                            amount={amount}
+                            setAmount={setAmount}
+                        />
                     </RightDiv>
                 </SpaceBetweenDiv>
             </div>
             <ButtonDiv>
-                <SubmitButton />
+                <SubmitButton 
+                    submit={handleSubmit}
+                />
             </ButtonDiv>
         </MainSection>
     )
@@ -72,8 +103,8 @@ export default Wallet;
 
 const MainSection = styled.section`
     background-color: #141414;
-    width: 30%;
     border-radius: 10px;
+    padding: 1%;
 `
 const TitleDiv = styled.div`
     padding-left: 10px;
@@ -107,4 +138,8 @@ const RightDiv = styled.div`
     width: 70%;
     padding-left: 10px;
     color: #FDFDFD;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
 `

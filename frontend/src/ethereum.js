@@ -21,26 +21,16 @@ const getBlockchain = () =>
                     ...acc,
                     [Web3.utils.hexToUtf8(token.ticker)]: new Contract(
                         token.tokenAddress,
-                        ERC20Abi
+                        ERC20Abi,
+                        signer
                     )
                 }), {})
-                // const bat = new Contract(
-                //     Contract.addressBat,
-                //     ERC20Abi,
-                // );
-                // const dai = new Contract(
-                //     Contract.addressDai,
-                //     ERC20Abi,
-                // );
-                // const rep = new Contract(
-                //     Contract.addressRep,
-                //     ERC20Abi,
-                // );
-                // const zrx = new Contract(
-                //     Contract.addressZrx,
-                //     ERC20Abi,
-                // );
-                resolve({signerAddress, dex, ...tokenContracts});
+                resolve({
+                    signer,
+                    signerAddress, 
+                    dex, 
+                    ...tokenContracts
+                });
             }
             resolve({
                 signerAddress: undefined, 

@@ -63,7 +63,6 @@ async function main() {
           token => seedTokenBalance(token, trader4) 
         )
     );
-
     const increaseTime = async (seconds) => {
         await web3.currentProvider.send({
           jsonrpc: '2.0',
@@ -129,33 +128,6 @@ async function main() {
     await dex.connect(trader3).createLimitOrder(ZRX, 1500, 23, SIDE.SELL)
     await dex.connect(trader3).createLimitOrder(ZRX, 1200, 22, SIDE.SELL)
     await dex.connect(trader4).createLimitOrder(ZRX, 900, 21, SIDE.SELL)
-    // With Promise all it dont work. "Out of gas" error.
-    // await Promise.all([
-    //    dex.connect(trader1).createLimitOrder(BAT, 1400, 10, SIDE.BUY),
-    //    dex.connect(trader2).createLimitOrder(BAT, 1200, 11, SIDE.BUY),
-    //    dex.connect(trader2).createLimitOrder(BAT, 1000, 12, SIDE.BUY),
-       
-    //    dex.connect(trader1).createLimitOrder(REP, 3000, 4, SIDE.BUY),
-    //    dex.connect(trader1).createLimitOrder(REP, 2000, 5, SIDE.BUY),
-    //    dex.connect(trader2).createLimitOrder(REP, 500, 6, SIDE.BUY),
-       
-    //    dex.connect(trader1).createLimitOrder(ZRX, 4000, 12, SIDE.BUY),
-    //    dex.connect(trader1).createLimitOrder(ZRX, 3000, 13, SIDE.BUY),
-    //    dex.connect(trader2).createLimitOrder(ZRX, 500, 14, SIDE.BUY),
-       
-    //    dex.connect(trader3).createLimitOrder(BAT, 2000, 16, SIDE.SELL),
-    //    dex.connect(trader4).createLimitOrder(BAT, 3000, 15, SIDE.SELL),
-    //    dex.connect(trader4).createLimitOrder(BAT, 500, 14, SIDE.SELL),
-       
-    //    dex.connect(trader3).createLimitOrder(REP, 4000, 10, SIDE.SELL),
-    //    dex.connect(trader3).createLimitOrder(REP, 2000, 9, SIDE.SELL),
-    //    dex.connect(trader4).createLimitOrder(REP, 800, 8, SIDE.SELL),
-       
-    //    dex.connect(trader3).createLimitOrder(ZRX, 1500, 23, SIDE.SELL),
-    //    dex.connect(trader3).createLimitOrder(ZRX, 1200, 22, SIDE.SELL),
-    //    dex.connect(trader4).createLimitOrder(ZRX, 900, 21, SIDE.SELL),
-       
-    // ]);
     
     const data = {
         addressDex: dex.address,
